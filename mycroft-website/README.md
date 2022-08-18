@@ -31,15 +31,15 @@ The easiest method of doing that is creating a `.env` file in the project direct
 
 ### Example
 
-Suppose the Mycroft WebApp server is published at `https://123.456.78.90:44391` and the Keycloak authentication server is available at` https://123.456.78.90:44392`.
+Suppose the Mycroft WebApp server is published at `https://123.456.78.90:12391` and the Keycloak authentication server is available at` https://123.456.78.90:12392`.
 On the authentication server you have set up a client named `mycroft-website` that accepts connections from your website's address.
 
 The contents of the `.env` file should look as follows:
 
 ```
-REACT_APP_BACKEND_URL=https://123.456.78.90:44391
+REACT_APP_BACKEND_URL=https://123.456.78.90:12391
 REACT_APP_KEYCLOAK_CLIENT_ID=mycroft-website
-REACT_APP_TOKEN_URL=https://123.456.78.90:44392
+REACT_APP_TOKEN_URL=https://123.456.78.90:12392
 ```
 
 ## Test run _(optional)_

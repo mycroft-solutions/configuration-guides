@@ -128,14 +128,14 @@ server {
 Suppose all of your services are running on the same machine with ip `123.456.78.90`, and the backend is using port `5000`.
 You can configure a proxy pass with following values for the variables:
 
-* `port_number`: 44350
+* `port_number`: 12350
 * `server_name`: 123.456.78.90
 * `cert_name`: test
-* `log_file`: nginx-44350
+* `log_file`: nginx-12350
 * `service_url`: 123.456.78.90:5000
 
-With this configuration, when you make a request to `https://123.456.78.90:44350`, the proxy will reroute it to `http://123.456.78.90:5000` so the backend can process it.
-From the user's perspective the response comes from `https://123.456.78.90:44350` and the real service stays hidden.
+With this configuration, when you make a request to `https://123.456.78.90:12350`, the proxy will reroute it to `http://123.456.78.90:5000` so the backend can process it.
+From the user's perspective the response comes from `https://123.456.78.90:12350` and the real service stays hidden.
 
 **Note:** you should never use the `http://123.456.78.90:5000` connection directly from the browser.
 All services should be hidden behind a firewall and accessible **ONLY** through the proxy.
