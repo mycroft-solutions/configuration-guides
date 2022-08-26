@@ -233,13 +233,53 @@ Example: db-url=jdbc:mysql://localhost:3306/keycloak?reconnect=true&useUnicode=t
 Example: http-port = 8081
 
 ```
-* Go Back to Keycloak folder and  run this command on terminal:
+
+* Add host name for the Keycloak server.
+
+```
+Example: hostname=localhost
+
+```
+### STEP 4 - Run Keycloak
+Keycloak can be started in two operating modes, development mode and production mode. Both modes offer a different set of defaults for the environment they are intended to be used.
+* Development Mode
+
+* Production Mode
+
+#### Step 4.1 Development Mode
+ The development mode is targeted for people trying out Keycloak the first time and get it up and running quickly. It also offers convenient defaults for developers, for example to develop a new Keycloak theme.
 
 ```
 sh bin/kc.sh start-dev & disown
 ```
+Defaults
 
-### Step 4 -  Registration 
+The development mode sets the following default configuration:
+
+HTTP is enabled
+
+Strict hostname resolution is disabled
+
+Cache is set to local (No distributed cache mechanism used for high availability)
+
+Theme- and Template-caching is disabled
+
+### Step 4.2 Production Mode
+The production mode is targeted for deployments of Keycloak into production environments and follows a "secure by default" principle.
+
+#### Create Your Own SSL Certificate Authority for Local HTTPS Development
+* Go to [Certificate Create Guide](https://github.com/mycroft-solutions/configuration-guides/blob/master/mycroft-web-server/README.md#csr)  
+
+### Run Keyclaok in Production Mode
+
+
+  Replace  variables marked with diamond brackets (<>) to your file path,file name , port number to run keycloak
+
+```
+sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_file_name>.crt --https-certificate-key-file=<key_file_path>/<key_file_name>.key --https-port=<portNumber> & disown
+```
+### Step 5 -  Registration 
+
 * Open to any web-browser and Replace  variables marked with diamond brackets (<>) to define port number of keyclaok
 
 ```
@@ -249,7 +289,7 @@ http://localhost:<port-number>/
 * Register Admin 
 Enter you initial admin username and password
 
-### Step 5-Account and Mail Configration
+### Step 6-Account and Mail Configration
 
 #### 1) Login Keycloak
 
@@ -281,7 +321,7 @@ If you use different email provider from outlook and gmail, add your provider ho
 
 
 
-### Step 5-Refresh Client Secret
+### Step 7-Refresh Client Secret
 
 * Click "Clients" at the left side
 * Click "client-id"(For Master Realm) or "client_id"(For Local Realm) option on the page
@@ -291,7 +331,6 @@ If you use different email provider from outlook and gmail, add your provider ho
 
 ## Configure  and Run Backend Application
 
-## Step 4 -  Configure
 
 ### Step 1— Download Backend Application
 
