@@ -110,7 +110,7 @@ server {
     proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header  X-Forwarded-Proto $scheme;
 
-    proxy_pass        http://<service_url>;
+    proxy_pass        <service_url>;
   }
 }
 ```
@@ -132,13 +132,14 @@ You can configure a proxy pass with following values for the variables:
 * `server_name`: 123.456.78.90
 * `cert_name`: test
 * `log_file`: nginx-12350
-* `service_url`: 123.456.78.90:5000
+* `service_url`: http://123.456.78.90:5000
 
 With this configuration, when you make a request to `https://123.456.78.90:12350`, the proxy will reroute it to `http://123.456.78.90:5000` so the backend can process it.
 From the user's perspective the response comes from `https://123.456.78.90:12350` and the real service stays hidden.
 
 **Note:** you should never use the `http://123.456.78.90:5000` connection directly from the browser.
 All services should be hidden behind a firewall and accessible **ONLY** through the proxy.
+Consider encryption for all services, unless running them within the same **SAFE** network.
 
 ## Applying changes
 
