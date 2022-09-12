@@ -26,7 +26,8 @@ The easiest method of doing that is creating a `.env` file in the project direct
 ### Required environment variables
 
 - `REACT_APP_BACKEND_URL` - the address of the corresponding Mycroft WebApp backend server
-- `REACT_APP_KEYCLOAK_CLIENT_ID` - the name of the Keycloak client configured for frontend connections
+- `REACT_APP_AUTH_CLIENT` - the name of the Keycloak client configured for frontend connections
+- `REACT_APP_AUTH_REALM` - the name of the Keycloak realm configured with the system
 - `REACT_APP_AUTH_URL` - the address of the corresponding Keycloak authentication server
 
 ### Example
@@ -38,7 +39,8 @@ The contents of the `.env` file should look as follows:
 
 ```
 REACT_APP_BACKEND_URL=https://123.456.78.90:12391
-REACT_APP_KEYCLOAK_CLIENT_ID=mycroft-website
+REACT_APP_AUTH_CLIENT=mycroft-website
+REACT_APP_AUTH_REALM=mycroft
 REACT_APP_TOKEN_URL=https://123.456.78.90:12392
 ```
 
