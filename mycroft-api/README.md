@@ -278,7 +278,7 @@ The production mode is targeted for deployments of Keycloak into production envi
 ```
 sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_file_name>.crt --https-certificate-key-file=<key_file_path>/<key_file_name>.key --https-port=<portNumber> & disown
 ```
-### Step 5 -  Registration 
+### Step 5 -  Login 
 
 * Open to any web-browser and Replace  variables marked with diamond brackets (<>) to define port number of keyclaok
 
@@ -286,8 +286,8 @@ sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_fil
 http://localhost:<port-number>/
 
 ```
-* Register Admin 
-Enter you initial admin username and password
+* Login Admin 
+Enter username and password(Initial admin username:"superuser",password:"superuser")
 
 ### Step 6-Account and Mail Configration
 
