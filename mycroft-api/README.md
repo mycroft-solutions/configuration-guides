@@ -303,7 +303,7 @@ Enter username and password(Initial admin username:"superuser",password:"superus
 
 #### 6) Click  "Email Optioan and Add your own email configuration
 
-#### 7) Change Realm at the right up corner to master(local) and do 5,6 again
+#### 7) Change Realm at the right up corner to master(mycroft) and do 5,6 again
 
 #### Example:
 
