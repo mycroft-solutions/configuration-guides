@@ -85,8 +85,7 @@ MySQL is an open-source database management system, commonly installed as part o
   Run this command to login mysql server
 
   ```
-  mysql -u root –p
-
+  mysql -u root -p
   ```
 
 ### Conclusion
@@ -114,7 +113,7 @@ Java™ is the world's leading programming language and platform. The Adoptium W
    Run this command to login mysql server
 
    ```
-    mysql -u root –p
+    mysql -u root -p
 
    ```
 ### Step 1 — Create Keyclaok schema
@@ -122,7 +121,7 @@ Java™ is the world's leading programming language and platform. The Adoptium W
 Run this command to create keycloak schema:
 
 ```
-CREATE SCHEMA keycloak DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+CREATE SCHEMA keycloak DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ```
 
@@ -141,7 +140,7 @@ Run this command to create schema table:
  Replace  variables marked with diamond brackets (<>) to your file path
 
 ```
- source <filePath>/scriptName.sql;
+ source <filePath>/keycloak.sql;
 
 ```
 
@@ -157,7 +156,7 @@ SHOW TABLES;
 Run this command to create mycroftSolution schema:
 
 ```
-CREATE SCHEMA mycroftSolution DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+CREATE SCHEMA mycroftSolution DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ```
 
@@ -176,7 +175,7 @@ Run this command to create schema table:
  Replace  variables marked with diamond brackets (<>) to your file path
 
 ```
- source <filePath>/scriptName.sql;
+ source <filePath>/mycrofotSolution.sql;
 
 ```
 
@@ -278,7 +277,7 @@ The production mode is targeted for deployments of Keycloak into production envi
 ```
 sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_file_name>.crt --https-certificate-key-file=<key_file_path>/<key_file_name>.key --https-port=<portNumber> & disown
 ```
-### Step 5 -  Login 
+### Step 5 -  Register 
 
 * Open to any web-browser and Replace  variables marked with diamond brackets (<>) to define port number of keyclaok
 
@@ -286,9 +285,7 @@ sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_fil
 http://localhost:<port-number>/
 
 ```
-* Login Admin 
-Enter username and password(Initial admin username:"superuser",password:"superuser")
-
+* Register Admin Enter you initial admin username and password 
 ### Step 6-Account and Mail Configration
 
 #### 1) Login Keycloak
@@ -324,9 +321,9 @@ If you use different email provider from outlook and gmail, add your provider ho
 ### Step 7-Refresh Client Secret
 
 * Click "Clients" at the left side
-* Click "client-id"(For Master Realm) or "client_id"(For Local Realm) option on the page
+* Click "client-id"(For Master Realm) or "client_id"(For mycroft Realm) option on the page
 * Go to "Credentials" Page and Regenerate new Secret
-* Change Realm at the right up corner to master(local) and generate new secret for master(local) realm
+* Change Realm at the right up corner to master(mycroft) and generate new secret for master(mycroft) realm
 
 
 ## Configure  and Run Backend Application
@@ -344,7 +341,7 @@ Get  Backend Application from given zip folder
 
 ### Step 3- Adding local configuration
 
-* Replace  variables marked with diamond brackets (<>) to "local" realm secret
+* Replace  variables marked with diamond brackets (<>) to "mycroft" realm secret
 ```
 keycloak.workingClientSecret = <"local" realm secret>
 
@@ -359,7 +356,7 @@ keycloak.clientSecret= = <"master" realm secret>
 * Replace  variables marked with diamond brackets (<>) to keycloak server port
 
 ```
-spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:<portNumber>/realms/local/protocol/openid-connect/certs
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:<portNumber>/realms/mycroft/protocol/openid-connect/certs
 
 ```
 
