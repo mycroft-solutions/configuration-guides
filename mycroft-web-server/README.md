@@ -4,9 +4,9 @@ The Nginx HTTP server is used to host static files as well as act as a reverse p
 
 ## Prerequisites
 
-To set up the web server, you will need the newest stable version of the Nginx server installed and running as a service.
+To set up the web server, you will need the current stable release of the Nginx server installed and running as a service.
 
-## CSR
+# CSR
 
 In order to manage HTTPS connections, a SSL/TLS certificate is needed.
 If you have one connected to the domain you are using, place it in `/etc/nginx/ssl/` directory along with the private key.
@@ -22,7 +22,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/<name
 
 You will be asked about some information regarding your organisation, but the only relevant field in case of a self-signed certificate is `Common Name` which must match the URL you will be using to connect to your website (for example `localhost`, `123.456.78.90` or `somewebsite.net`).
 
-## Configuration
+# Configuration
 
 Before you start setting up the MycroftSolutions website, make sure to remove the default Nginx *Welcome* page.
 
@@ -41,7 +41,7 @@ server {
 }
 ```
 
-### Close invalid connections
+## Close invalid connections
 
 If a request does not match any valid virtual server block, it gets closed without a response.
 Since we redirect HTTP calls, every invalid call will use HTTPS scheme, so we need a certificate to handle it.
@@ -61,7 +61,7 @@ server {
 }
 ```
 
-### Host static files
+## Host static files
 
 Currently the frontend gets deployed as a static bundle and gets hosted directly by the NGINX server over HTTPS.
 Port 443 is the default target when using the HTTPS protocol, so this will be default location for browsers accessing the server.
@@ -84,14 +84,14 @@ server {
 }
 ```
 
-#### Variables
+### Variables
 
 * `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
 * `cert_name` - name of your main certificate
 * `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
 * `path_to_static_files` - full path to the `build/` directory containing the production bundle from `web-app-front` project
 
-### Make a secure connection to an internal service
+## Make a secure connection to an internal service
 
 ```
 server {
@@ -115,7 +115,7 @@ server {
 }
 ```
 
-#### Variables
+### Variables
 
 * `port_number` - if the `server_name` is the same for multiple virtual servers, they have to use different ports
 * `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
@@ -123,7 +123,7 @@ server {
 * `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
 * `service_url` - private url of the service that will process the request
 
-#### Example
+### Example
 
 Suppose all of your services are running on the same machine with ip `123.456.78.90`, and the backend is using port `5000`.
 You can configure a proxy pass with following values for the variables:
@@ -141,7 +141,7 @@ From the user's perspective the response comes from `https://123.456.78.90:12350
 All services should be hidden behind a firewall and accessible **ONLY** through the proxy.
 Consider encryption for all services, unless running them within the same **SAFE** network.
 
-## Applying changes
+# Applying changes
 
 After making changes, validate the structure of your configuration files:
 
