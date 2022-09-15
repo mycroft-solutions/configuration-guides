@@ -222,6 +222,7 @@ You will need to configure the following settings:
 - `server.port` - port number for the Backend service to be exposed on
 - `logging.file.name` - error log file location - useful for tech support
 - `LOGIN_PAGE_URL` - redirection link to login page on the corresponding website
+- `WEB_URL` - Website URL
 
 ### Example
 
@@ -272,6 +273,9 @@ server.port=8089
 
 # Define Folder to store log information
 logging.file.name=/var/log/mycroftsolutions.log
+
+# Define your backend running Address
+WEB_URL=https://123.456.78.90
 
 # Define your backend running Address
 link.forgotPassword=http://localhost:8089
