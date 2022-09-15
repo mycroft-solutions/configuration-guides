@@ -10,6 +10,20 @@ To set up the backend server, you will need the following:
 - Java Temurin 17
 - Keycloak 18
 
+## Installation Package
+
+An **Installation Package** is also needed.
+After acquiring an archive containing necessary files, unpack it in a chosen workdirectory.
+
+The directory should contain:
+
+- `keycloak-18.0.0/`
+- `mycroft-api-pre-release/`
+- `keycloakSchema.sql`
+- `mycroftSchema.sql`
+
+You will be referencing these files and directories during the installation process.
+
 # MySQL
 
 If you don't have a MySQL database installed, you can find installation instructions for your Linux distribution in [MySQL docs](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html).
@@ -22,9 +36,7 @@ You can find installation instructions for your Linux distribution in [Adoptium 
 
 ## Keycloak schema
 
-Start with creating a work directory and unzipping the **Installation Package** there.
-
-Authenticate to your database
+Start with authenticating to your database:
 
 ```sh
 mysql -u root -p
