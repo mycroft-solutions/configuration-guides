@@ -189,18 +189,13 @@ SHOW TABLES;
  ## Configure and Run Keycloak
  The purpose of this guide is to walk through the steps that need to be completed  the Keycloak server configuration  for your local server
 
-### Step 1— Download Keylcoak
-
- Get  Keyclaok application from given zip file [Keyclaok Application](https://www.example.com)
-
-
-### Step 2  -Unpacking 
+### Step 1  -Unpacking 
 *  Unpack folder
 *  Go to "conf" folder
 *  Open  keycloak.conf file 
 
 
-### Step 3- Adding initial configuration
+### Step 2- Adding initial configuration
 
 * Add database vender
 
@@ -239,13 +234,13 @@ Example: http-port = 8081
 Example: hostname=localhost
 
 ```
-### STEP 4 - Run Keycloak
+### STEP 3 - Run Keycloak
 Keycloak can be started in two operating modes, development mode and production mode. Both modes offer a different set of defaults for the environment they are intended to be used.
 * Development Mode
 
 * Production Mode
 
-#### Step 4.1 Development Mode
+#### Step 3.1 Development Mode
  The development mode is targeted for people trying out Keycloak the first time and get it up and running quickly. It also offers convenient defaults for developers, for example to develop a new Keycloak theme.
 
 ```
@@ -263,7 +258,7 @@ Cache is set to local (No distributed cache mechanism used for high availability
 
 Theme- and Template-caching is disabled
 
-### Step 4.2 Production Mode
+### Step 3.2 Production Mode
 The production mode is targeted for deployments of Keycloak into production environments and follows a "secure by default" principle.
 
 #### Create Your Own SSL Certificate Authority for Local HTTPS Development
@@ -277,7 +272,7 @@ The production mode is targeted for deployments of Keycloak into production envi
 ```
 sh bin/kc.sh  start --https-certificate-file=<Certificate_Path>/<certificate_file_name>.crt --https-certificate-key-file=<key_file_path>/<key_file_name>.key --https-port=<portNumber> & disown
 ```
-### Step 5 -  Login 
+### Step 4 -  Login 
 
 * Open to any web-browser and Replace  variables marked with diamond brackets (<>) to define port number of keyclaok
 
@@ -286,7 +281,7 @@ http://localhost:<port-number>/
 
 ```
 * Login Admin(Username:superuser,Password:superuser)
-### Step 6-Account and Mail Configration
+### Step 5-Account and Mail Configration
 
 #### 1) Login Keycloak
 
@@ -343,7 +338,7 @@ Get  Backend Application from given zip folder
 
 * Replace  variables marked with diamond brackets (<>) to "mycroft" realm secret
 ```
-keycloak.workingClientSecret = <"local" realm secret>
+keycloak.workingClientSecret = <"mycroft" realm secret>
 
 ```
 
