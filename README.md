@@ -44,4 +44,4 @@ The server should then be configured to listen only on port 443 and resolve the 
 ![Multiserver configuration](./img/system-multiple.png 'Multiserver configuration')
 
 The services can be installed on separate machines, with the exception of _Mycroft Website_, which has to be available to _Mycroft Web Server_ directly.
-To ensure secure connections, the private services (*API\*\*, *Auth\**) in this scenario must enforce HTTPS or be available to the *Mycroft Web Server\* within a local network, not visible from the Internet.
+To ensure secure connections, the private services (_API_, _Auth_) in this scenario must enforce HTTPS or be available to the _Mycroft Web Server_ within a local network, not visible from the Internet.

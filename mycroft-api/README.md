@@ -1,13 +1,13 @@
 # Mycroft API and Mycroft Auth installation guide
 
-The backend server create connection between scanner application and front end application.
+The _Mycroft API_ create connection between _Mycroft Scanner_ application and _Mycroft Website_.
 
 ## Prerequisites
 
 To set up the _Mycroft API_ and _Mycroft Auth_, you will need the following:
 
-- MySQL database 6+
-- Java Temurin 17
+- [MySQL](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html) database 6+
+- Java Temurin 17 - [link 1](https://adoptium.net/installation/linux/), [link 2](https://blog.adoptium.net/2021/12/eclipse-temurin-linux-installers-available/)
 - Keycloak 18
 
 ## Installation Package
@@ -24,14 +24,6 @@ The **<resource_dir>** should contain:
 - `mycroftSchema.sql`
 
 You will be using these files and directories during the installation process.
-
-# MySQL
-
-If you don't have a MySQL database installed, you can find installation instructions for your Linux distribution in [MySQL docs](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html).
-
-# Java Temurin 17
-
-You can find installation instructions for your Linux distribution in [Adoptium installation guide](https://adoptium.net/installation/linux/) or this [Adoptium blog post](https://blog.adoptium.net/2021/12/eclipse-temurin-linux-installers-available/).
 
 # Database configuration
 
@@ -210,11 +202,11 @@ If you use different email provider from outlook and gmail, add your provider ho
 6. Click on **client_id** option on the page,
 7. Go to **Credentials** and click on **Regenerate Secret**.
 
-# Backend Application
+# Mycroft API
 
 ## Configuration file
 
-The Backend configuration file is located at `<resource_dir>/mycroft-api-pre-release/application-local.properties`.
+_Mycroft API_ configuration file is located at `<resource_dir>/mycroft-api-pre-release/application-local.properties`.
 
 You will need to configure the following settings:
 
@@ -225,14 +217,14 @@ You will need to configure the following settings:
 - `spring.datasource.url` - database URL - usually you will need to adjust only the port number
 - `spring.datasource.username` - username for the database
 - `spring.datasource.password` - user password for the database
-- `server.port` - port number for the Backend service to be exposed on
+- `server.port` - port number for the _Mycroft API_ service to be exposed on
 - `logging.file.name` - error log file location - useful for tech support
 - `LOGIN_PAGE_URL` - redirection link to login page on the corresponding website
 - `WEB_URL` - Website URL
 
 ### Example
 
-An example configuration for Mycroft Backend server running at `http://123.456.78.90:8089` with a corresponding Mycroft Website available at `https://123.456.78.90` could look as follows:
+An example configuration for _Mycroft API_ server running at `http://123.456.78.90:8089` with a corresponding _Mycroft Website_ available at `https://123.456.78.90` could look as follows:
 
 ```properties
 #LocalServer
@@ -292,7 +284,7 @@ LOGIN_PAGE_URL=https://123.456.78.90/login
 ORGANIZATION_TYPE=SINGLE
 ```
 
-## Running the backend
+## Running the API
 
 You can run the application using the following command:
 
