@@ -2,17 +2,16 @@
 
 ![System structure](./img/system-structure.png 'System structure')
 
-The Mycroft system consists of following services:
+To set up the Mycroft system read this introductory page for general information and proceed with the installation of the system using the attached instructions in the following order:
 
-- [Mycroft API](./mycroft-api) - connects Mycroft Scanner application to Mycroft Website,
-- Mycroft Auth - installed with _Mycroft API_; handles user data and security,
-- [Mycroft Website](./mycroft-website) - provides a browser interface for organization administrators,
-- [Mycroft Web Server](./mycroft-web-server) - responsible for secure access to other services.
+1. [Mycroft API and Mycroft Auth](./mycroft-api) - two services managing the data flow and system security,
+2. [Mycroft Website](./mycroft-website) - provides a browser interface for organization administrators,
+3. [Mycroft Web Server](./mycroft-web-server) - responsible for secure access to other services.
 
 The installation process of _Mycroft API_ and _Mycroft Auth_ is bundled together in order to simplify their configuration.
 _Mycroft Website_ can be installed separately, but requires connection to both _Mycroft API_ and _Mycroft Auth_ for complete functionality.
 
-The three services should be installed on a single machine or a local network, then exposed to the Internet by the _Mycroft Web Server_.
+The above services should be installed on a single machine or a local network and then made available on the Internet by the _Mycroft Web Server_.
 All requests, including communication between the services, should be directed at _Mycroft Web Server_.
 
 # System structure

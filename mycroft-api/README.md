@@ -8,7 +8,6 @@ To set up the _Mycroft API_ and _Mycroft Auth_, you will need the following:
 
 - [MySQL](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html) database 6+
 - Java Temurin 17 - [link 1](https://adoptium.net/installation/linux/), [link 2](https://blog.adoptium.net/2021/12/eclipse-temurin-linux-installers-available/)
-- Keycloak 18
 
 ## Installation Package
 
@@ -81,9 +80,9 @@ To verify that the process was completed you can view the database structure and
 SHOW TABLES;
 ```
 
-# Keycloak
+# Mycroft Auth
 
-## Keycloak configuration file
+## Mycroft Auth configuration file
 
 The Keycloak configuration file is located at `<resource_dir>/keycloak-18.0.0/conf/keycloak.conf`.
 
@@ -92,12 +91,12 @@ You will need to configure the following settings:
 - `db-username` - username for the database
 - `db-password` - user password for the database
 - `db-url` - complete database JDBC URL - usually you will need to adjust only the port number
-- `http-port` - port number for the Keycloak service to be exposed on
-- `hostname` - hostname for the Keycloak service to be exposed on
+- `http-port` - port number for the _Mycroft Auth_ service to be exposed on
+- `hostname` - hostname for the _Mycroft Auth_ service to be exposed on
 
 ### Example
 
-Suppose the Keycloak server will be available at `http://123.456.78.90:8081`.
+Suppose the _Mycroft Auth_ will be available at `http://123.456.78.90:8081`.
 The database is exposed at port `3306`, the username is `root` and the pasword is `roottoo` (never do that).
 
 The contents of the configuration file should look as follows:
@@ -148,9 +147,9 @@ hostname=123.456.78.90
 http-port=8081
 ```
 
-## Run Keycloak service
+## Run Mycroft Auth service
 
-To run Keycloak use the following command:
+To run _Mycroft Auth_ use the following command:
 
 ```sh
 sh <resource_dir>/keycloak-18.0.0/bin/kc.sh start-dev & disown
@@ -210,7 +209,7 @@ _Mycroft API_ configuration file is located at `<resource_dir>/mycroft-api-pre-r
 
 You will need to configure the following settings:
 
-- `keycloak.serverUrl` - Keycloak service URL
+- `keycloak.serverUrl` - _Mycroft Auth_ service URL
 - `keycloak.workingClientSecret` - client secret for `Mycroft` Realm _(Clients > mycroftSolution_client_id > Credentials)_
 - `keycloak.clientSecret` - client secret for `Master` Realm _(Clients > client_id > Credentials)_
 - `spring.security.oauth2.resourceserver.jwt.jwk-set-uri` - Keycloak authentication URL - usually you will need to adjust only the port number

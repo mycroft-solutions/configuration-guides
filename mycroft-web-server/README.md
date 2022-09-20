@@ -149,7 +149,7 @@ You can provide public access to _Mycroft API_ at `https://123.456.78.90:12389` 
 - `port_number`: 12389
 - `server_name`: 123.456.78.90
 - `cert_name`: test
-- `log_file`: nginx-12350
+- `log_file`: nginx-mycroft-api
 - `service_url`: http://123.456.78.90:8089
 
 With this configuration, when you make a request to `https://123.456.78.90:12389`, the proxy will reroute it to `http://123.456.78.90:8089` so the backend can process it.
