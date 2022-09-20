@@ -1,10 +1,12 @@
-# Web Server
+# Mycroft Web Server installation guide
 
-The Nginx HTTP server is used to host static files as well as act as a reverse proxy for services in the Mycroft system.
+_Mycroft Web Server_ uses Nginx HTTP server to host static files of _Mycroft Website_ as well as act as a reverse proxy for Mycroft services.
 
 ## Prerequisites
 
-To set up the web server, you will need the current stable release of the Nginx server installed and running as a service.
+To set up _Mycroft Web Server_ you will need the following:
+
+- [Nginx](http://nginx.org/en/docs/install.html) 1.20 or newer - installed and running as a service.
 
 # CSR
 
@@ -16,28 +18,40 @@ In that case all the services should work correctly, but you will get an informa
 
 To generate a self-signed certificate in the `/etc/nginx/ssl/` directory you can use **openssl**:
 
-```
+```sh
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/<name>.key -out /etc/nginx/ssl/<name>.crt
 ```
 
-You will be asked about some information regarding your organisation, but the only relevant field in case of a self-signed certificate is `Common Name` which must match the URL you will be using to connect to your website (for example `localhost`, `123.456.78.90` or `somewebsite.net`).
+You will be asked about some information regarding your organization, but the only relevant field in case of a self-signed certificate is `Common Name` which must match the URL you will be using to connect to your website (for example `localhost`, `123.456.78.90` or `somewebsite.net`).
 
 # Configuration
 
-Before you start setting up the MycroftSolutions website, make sure to remove the default Nginx *Welcome* page.
+Before you start setting up the MycroftSolutions website, make sure to remove the default Nginx Welcome page.
 
 To create Mycroft Web Server configuration create a copy of the [mycroft.conf](./mycroft.conf) file inside the `/etc/nginx/conf.d/` directory.
 Next, replace all of the variables marked with diamond brackets (<>) to match your system structure.
-For more information read detailed instructions or [example configuration](./example.conf).
+For more information read detailed instructions or [example configuration](./simple.conf).
 
-### Enforce secure connections
+## Enforce secure connections
 
 To prevent errors in case of users connecting using an incorrect protocol, we redirect all calls to port 80 (HTTP) to the same address with HTTPS scheme.
 
-```
+```nginx
 server {
-  listen 80   default_server;
-  return 301  https://$host$request_uri;
+  listen  80   default_server;
+  return  301  https://$host$request_uri;
+}
+```
+
+## Redirect IP requests to domain name
+
+When configuring the web server with a domain, we redirect incoming requests to the proper hostname to avoid ambiguity.
+
+```nginx
+server {
+  listen       443;
+  server_name  <ip_address>;
+  return       301            https://<domain_name>$request_uri;
 }
 ```
 
@@ -49,7 +63,7 @@ Since we redirect HTTP calls, every invalid call will use HTTPS scheme, so we ne
 **Do not** use the same certificate for valid requests.
 The `nginx.cert` should be a self-signed certificate with default field values, except for `Common Name`, which you should set to the ip address.
 
-```
+```nginx
 server {
   listen               443;
   server_name          _;
@@ -63,10 +77,13 @@ server {
 
 ## Host static files
 
-Currently the frontend gets deployed as a static bundle and gets hosted directly by the NGINX server over HTTPS.
-Port 443 is the default target when using the HTTPS protocol, so this will be default location for browsers accessing the server.
+_Mycroft Website_ gets deployed as a static bundle and gets hosted directly by the Nginx server over HTTPS.
+Port `443` is the default target when using the HTTPS protocol, so this will be default location for browsers accessing the server.
 
-```
+**Note:**
+make sure that the nginx service has permissions required to access the static files
+
+```nginx
 server {
   listen               443 ssl http2;
   server_name          <server_name>;
@@ -86,14 +103,14 @@ server {
 
 ### Variables
 
-* `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
-* `cert_name` - name of your main certificate
-* `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
-* `path_to_static_files` - full path to the `build/` directory containing the production bundle from `web-app-front` project
+- `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
+- `cert_name` - name of your main certificate
+- `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
+- `path_to_static_files` - full path to the `build/` directory of _Mycroft Website_
 
 ## Make a secure connection to an internal service
 
-```
+```nginx
 server {
   listen               <port_number> ssl http2;
   server_name          <server_name>;
@@ -117,41 +134,42 @@ server {
 
 ### Variables
 
-* `port_number` - if the `server_name` is the same for multiple virtual servers, they have to use different ports
-* `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
-* `cert_name` - name of your main certificate
-* `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
-* `service_url` - private url of the service that will process the request
+- `port_number` - if the `server_name` is the same for multiple virtual servers, they have to use different ports
+- `server_name` - Common Name from the certificate and at the same time the base URL you use to visit the website, for example `localhost`, `123.456.78.90` or `somewebsite.net`
+- `cert_name` - name of your main certificate
+- `log_file` - used for access log; use a name that will allow you to easily identify the corresponding virtual server
+- `service_url` - private url of the service that will process the request
 
 ### Example
 
-Suppose all of your services are running on the same machine with ip `123.456.78.90`, and the backend is using port `5000`.
-You can configure a proxy pass with following values for the variables:
+Suppose all of your services (including _Mycroft Web Server_) are running on the same machine with ip `123.456.78.90`, and _Mycroft API_ is using port `8089`.
+Let's also assume that you've generated a self-signed certificate and named it `test`.
+You can provide public access to _Mycroft API_ at `https://123.456.78.90:12389` by using the following values:
 
-* `port_number`: 12350
-* `server_name`: 123.456.78.90
-* `cert_name`: test
-* `log_file`: nginx-12350
-* `service_url`: http://123.456.78.90:5000
+- `port_number`: 12389
+- `server_name`: 123.456.78.90
+- `cert_name`: test
+- `log_file`: nginx-12350
+- `service_url`: http://123.456.78.90:8089
 
-With this configuration, when you make a request to `https://123.456.78.90:12350`, the proxy will reroute it to `http://123.456.78.90:5000` so the backend can process it.
-From the user's perspective the response comes from `https://123.456.78.90:12350` and the real service stays hidden.
+With this configuration, when you make a request to `https://123.456.78.90:12389`, the proxy will reroute it to `http://123.456.78.90:8089` so the backend can process it.
+From the user's perspective the response comes from `https://123.456.78.90:12389` and the real service stays hidden.
 
-**Note:** you should never use the `http://123.456.78.90:5000` connection directly from the browser.
+**Note:** you should never use the `http://123.456.78.90:8089` connection directly from the browser.
 All services should be hidden behind a firewall and accessible **ONLY** through the proxy.
 Consider encryption for all services, unless running them within the same **SAFE** network.
 
 # Applying changes
 
-After making changes, validate the structure of your configuration files:
+After making changes to the configuration, validate their structure:
 
-```
+```sh
 nginx -t
 ```
 
 If there are no issues, you can reload the configuration:
 
-```
+```sh
 nginx -s reload
 ```
 

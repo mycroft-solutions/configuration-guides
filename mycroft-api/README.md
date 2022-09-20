@@ -1,10 +1,10 @@
-# Backend Server
+# Mycroft API and Mycroft Auth installation guide
 
 The backend server create connection between scanner application and front end application.
 
 ## Prerequisites
 
-To set up the backend server, you will need the following:
+To set up the _Mycroft API_ and _Mycroft Auth_, you will need the following:
 
 - MySQL database 6+
 - Java Temurin 17
@@ -12,17 +12,18 @@ To set up the backend server, you will need the following:
 
 ## Installation Package
 
-An **Installation Package** is also needed.
-After acquiring an archive containing necessary files, unpack it in a chosen workdirectory.
+The **API Installation Package** is also needed.
+After acquiring an archive containing necessary files, unpack it in a chosen location.
+Let's mark the absolute path of this location as **<resource_dir>**.
 
-The directory should contain:
+The **<resource_dir>** should contain:
 
 - `keycloak-18.0.0/`
 - `mycroft-api-pre-release/`
 - `keycloakSchema.sql`
 - `mycroftSchema.sql`
 
-You will be referencing these files and directories during the installation process.
+You will be using these files and directories during the installation process.
 
 # MySQL
 
@@ -36,25 +37,27 @@ You can find installation instructions for your Linux distribution in [Adoptium 
 
 ## Keycloak schema
 
+Before installing the _Mycroft Auth_ service, the database structures for _Keycloak_ dependency need to be created.
+
 Start with authenticating to your database:
 
 ```sh
 mysql -u root -p
 ```
 
-To create Keycloak schema run the following command:
+To initiate the _Mycroft Auth_ database schema run the following command:
 
 ```sql
 CREATE SCHEMA keycloak DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 From now on you will be working on the newly created schema.
-Use the `keycloakSchema.sql` script from the **Installation Package** to automatically build the required _Keycloak Schema_ tables.
+Use the `keycloakSchema.sql` script from the _Installation Package_ to automatically build the required tables.
 
 ```sql
 USE keycloak;
 
-SOURCE /path/to/keycloakSchema.sql; -- make sure to provide the correct path to the unzipped package
+SOURCE <resource_dir>/keycloakSchema.sql;
 ```
 
 To verify that the process was completed you can view the database structure and look for some of the _Keycloak_ tables e.g. `ADMIN_EVENT_ENTITY`, `USER_ENTITY` or `CLIENT`.
@@ -63,24 +66,24 @@ To verify that the process was completed you can view the database structure and
 SHOW TABLES;
 ```
 
-## Backend schema
+## Mycroft API schema
 
-Run this command to create mycroftSolution schema:
+Run the following command to initiate the _Mycroft API_ database schema:
 
 ```sql
 CREATE SCHEMA mycroft_solutions DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 From now on you will be working on the newly created schema.
-Use the `mycroftSchema.sql` script from the **Installation Package** to automatically build the required _Keycloak Schema_ tables.
+Use the `mycroftSchema.sql` script from the _Installation Package_ to automatically build the required tables.
 
 ```sql
 USE mycroft_solutions;
 
-SOURCE /path/to/mycroftSchema.sql; -- make sure to provide the correct path to the unzipped package
+SOURCE <resource_dir>/mycroftSchema.sql;
 ```
 
-To verify that the process was completed you can view the database structure and look for some of the _Mycroft_ tables e.g. `REPORT`, `ORGANIZATION` or `USER`.
+To verify that the process was completed you can view the database structure and look for some of the _Mycroft API_ tables e.g. `REPORT`, `ORGANIZATION` or `USER`.
 
 ```sql
 SHOW TABLES;
@@ -90,7 +93,7 @@ SHOW TABLES;
 
 ## Keycloak configuration file
 
-The Keycloak configuration file is located at `/path/to/keycloak-18.0.0/conf/keycloak.conf` _(make sure to provide the correct path to the unzipped package)_.
+The Keycloak configuration file is located at `<resource_dir>/keycloak-18.0.0/conf/keycloak.conf`.
 
 You will need to configure the following settings:
 
@@ -107,7 +110,7 @@ The database is exposed at port `3306`, the username is `root` and the pasword i
 
 The contents of the configuration file should look as follows:
 
-```conf
+```properties
 # Basic settings for running in production. Change accordingly before deploying the server.
 
 # Database
@@ -158,7 +161,7 @@ http-port=8081
 To run Keycloak use the following command:
 
 ```sh
-sh /path/to/keycloak-18.0.0/bin/kc.sh start-dev & disown # make sure to provide the correct path to the unzipped package
+sh <resource_dir>/keycloak-18.0.0/bin/kc.sh start-dev & disown
 ```
 
 ## Sign in to the Keycloak Admin Panel
@@ -172,13 +175,16 @@ Authenticate using default credentials:
 
 ## Keycloak account configuration
 
-1. Click username in the top right corner and open the **Manage account** option
-2. Navigate to the **Personal info** section
-3. Enter admin account information and save
-4. Click **Back to security admin console** to return to admin console
-5. Click **Realm Settings** in the top left corner
-6. Click **Email Options** and add your email configuration
-7. Click the _Realm_ name in the top left corner and change it to `Mycroft`, then repeat steps 4 and 5
+1. Make sure the active _Realm_ (top left) is `Master`
+2. Click on username in the top right corner and click on the **Manage account** option
+3. Navigate to the **Personal info** section
+4. Enter admin account information and save
+5. Click on **Back to security admin console** to return to admin console
+6. Click on **Realm Settings** in the top left corner
+7. Click on **Email Options** and add your email configuration
+8. Click on the _Realm_ name in the top left corner and change it to `Mycroft`
+9. Click on **Realm Settings** in the top left corner
+10. Click on **Email** and add your email configuration
 
 ### Example:
 
@@ -198,17 +204,17 @@ If you use different email provider from outlook and gmail, add your provider ho
 
 1. Make sure the active _Realm_ (top left) is `Mycroft`
 2. Navigate to **Clients** on the left panel,
-3. Click **mycroftSolution_client_id** option on the page,
+3. Click on **mycroftSolution_client_id** option on the page,
 4. Go to **Credentials** and click on **Regenerate Secret**,
 5. Change the _Realm_ to `Master` and navigate to **Clients** on the left panel,
-6. Click **client_id** option on the page,
+6. Click on **client_id** option on the page,
 7. Go to **Credentials** and click on **Regenerate Secret**.
 
 # Backend Application
 
 ## Configuration file
 
-The Backend configuration file is located at `/path/to/mycroft-api-pre-release/application-local.properties` _(make sure to provide the correct path to the unzipped package)_.
+The Backend configuration file is located at `<resource_dir>/mycroft-api-pre-release/application-local.properties`.
 
 You will need to configure the following settings:
 
@@ -291,7 +297,7 @@ ORGANIZATION_TYPE=SINGLE
 You can run the application using the following command:
 
 ```sh
-java -jar /path/to/mycroft-api-pre-release/mycroftsolutionswebapp-0.0.2-SNAPSHOT.war --spring.profiles.active=local --spring.config.location=/path/to/mycroft-api-pre-release/application.properties # _(make sure to provide the correct path to the unzipped package - in both instances)_
+java -jar <resource_dir>/mycroft-api-pre-release/mycroftsolutionswebapp-0.0.2-SNAPSHOT.war --spring.profiles.active=local --spring.config.location=<resource_dir>/mycroft-api-pre-release/application.properties
 ```
 
 **Note:**
