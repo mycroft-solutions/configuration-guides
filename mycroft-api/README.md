@@ -288,7 +288,7 @@ ORGANIZATION_TYPE=SINGLE
 You can run the application using the following command:
 
 ```sh
-java -jar <resource_dir>/mycroft-api-pre-release/mycroftsolutionswebapp-0.0.2-SNAPSHOT.war --spring.profiles.active=local --spring.config.location=<resource_dir>/mycroft-api-pre-release/application.properties
+java -jar <resource_dir>/mycroft-api-pre-release/mycroftsolutionswebapp-0.0.2-SNAPSHOT.war --spring.profiles.active=local --spring.config.location=<resource_dir>/mycroft-api-pre-release/application.properties & disown
 ```
 
 **Note:**
